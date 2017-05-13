@@ -379,7 +379,7 @@ func verifyResponseBody(req *http.Request, resp *http.Response, v int) (written 
 
     if isRedirected(resp) {
         if verbose {
-            fmt.Printf("%s request was redirected with code %s\n", time.Now(), resp.StatusCode)
+            fmt.Printf("%s request was redirected with code %d\n", time.Now(), resp.StatusCode)
         }
         return		// if this is a redirect, don't care about body
     }
