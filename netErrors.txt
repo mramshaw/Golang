@@ -1,0 +1,276 @@
+$ go doc net | grep Error
+type AddrError struct{ ... }
+type DNSConfigError struct{ ... }
+type DNSError struct{ ... }
+type Error interface{ ... }
+type InvalidAddrError string
+type OpError struct{ ... }
+type ParseError struct{ ... }
+type UnknownNetworkError string
+
+===============================
+
+type Error interface {
+	error
+	Timeout() bool   // Is the error a timeout?
+	Temporary() bool // Is the error temporary?
+}
+    An Error represents a network error.
+
+========================================
+
+type AddrError struct {
+	Err  string
+	Addr string
+}
+
+func (e *AddrError) Error() string
+func (e *AddrError) Temporary() bool
+func (e *AddrError) Timeout() bool
+
+==================================
+
+type DNSConfigError struct {
+	Err error
+}
+    DNSConfigError represents an error reading the machine's DNS configuration.
+    (No longer used; kept for compatibility.)
+
+
+func (e *DNSConfigError) Error() string
+func (e *DNSConfigError) Temporary() bool
+func (e *DNSConfigError) Timeout() bool
+
+=======================================
+
+type DNSError struct {
+	Err         string // description of the error
+	Name        string // name looked for
+	Server      string // server used
+	IsTimeout   bool   // if true, timed out; not all timeouts set this
+	IsTemporary bool   // if true, error is temporary; not all errors set this
+}
+    DNSError represents a DNS lookup error.
+
+
+func (e *DNSError) Error() string
+func (e *DNSError) Temporary() bool
+func (e *DNSError) Timeout() bool
+
+=================================
+
+type InvalidAddrError string
+
+func (e InvalidAddrError) Error() string
+func (e InvalidAddrError) Temporary() bool
+func (e InvalidAddrError) Timeout() bool
+
+========================================
+
+type OpError struct {
+	// Op is the operation which caused the error, such as
+	// "read" or "write".
+	Op string
+
+	// Net is the network type on which this error occurred,
+	// such as "tcp" or "udp6".
+	Net string
+
+	// For operations involving a remote network connection, like
+	// Dial, Read, or Write, Source is the corresponding local
+	// network address.
+	Source Addr
+
+	// Addr is the network address for which this error occurred.
+	// For local operations, like Listen or SetDeadline, Addr is
+	// the address of the local endpoint being manipulated.
+	// For operations involving a remote network connection, like
+	// Dial, Read, or Write, Addr is the remote address of that
+	// connection.
+	Addr Addr
+
+	// Err is the error that occurred during the operation.
+	Err error
+}
+    OpError is the error type usually returned by functions in the net package.
+    It describes the operation, network type, and address of an error.
+
+
+func (e *OpError) Error() string
+func (e *OpError) Temporary() bool
+func (e *OpError) Timeout() bool
+
+================================
+
+type ParseError struct {
+	// Type is the type of string that was expected, such as
+	// "IP address", "CIDR address".
+	Type string
+
+	// Text is the malformed text string.
+	Text string
+}
+    A ParseError is the error type of literal network address parsers.
+
+
+func (e *ParseError) Error() string
+
+===================================
+
+type UnknownNetworkError string
+
+func (e UnknownNetworkError) Error() string
+func (e UnknownNetworkError) Temporary() bool
+func (e UnknownNetworkError) Timeout() bool
+
+===========================================
+
+$ go doc net/http | grep Error
+var ErrNotSupported = &ProtocolError{ ... } ...
+func Error(w ResponseWriter, error string, code int)
+type ProtocolError struct{ ... }
+
+================================
+
+type ProtocolError struct {
+	ErrorString string
+}
+    ProtocolError represents an HTTP protocol error.
+
+    Deprecated: Not all errors in the http package related to protocol errors
+    are of type ProtocolError.
+
+
+func (pe *ProtocolError) Error() string
+
+=======================================
+
+$ go doc net/http | grep Err
+var ErrNotSupported = &ProtocolError{ ... } ...
+var ErrBodyNotAllowed = errors.New("http: request method or response status code does not allow body") ...
+var ErrAbortHandler = errors.New("net/http: abort Handler")
+var ErrBodyReadAfterClose = errors.New("http: invalid Read on closed Body")
+var ErrHandlerTimeout = errors.New("http: Handler timeout")
+var ErrLineTooLong = internal.ErrLineTooLong
+var ErrMissingFile = errors.New("http: no such file")
+var ErrNoCookie = errors.New("http: named cookie not present")
+var ErrNoLocation = errors.New("http: no Location header in response")
+var ErrServerClosed = errors.New("http: Server closed")
+var ErrSkipAltProtocol = errors.New("net/http: skip alternate protocol")
+var ErrUseLastResponse = errors.New("net/http: use last response")
+func Error(w ResponseWriter, error string, code int)
+type ProtocolError struct{ ... }
+
+================================
+
+var (
+	// ErrNotSupported is returned by the Push method of Pusher
+	// implementations to indicate that HTTP/2 Push support is not
+	// available.
+	ErrNotSupported = &ProtocolError{"feature not supported"}
+
+	// ErrUnexpectedTrailer is returned by the Transport when a server
+	// replies with a Trailer header, but without a chunked reply.
+	ErrUnexpectedTrailer = &ProtocolError{"trailer header without chunked transfer encoding"}
+
+	// ErrMissingBoundary is returned by Request.MultipartReader when the
+	// request's Content-Type does not include a "boundary" parameter.
+	ErrMissingBoundary = &ProtocolError{"no multipart boundary param in Content-Type"}
+
+	// ErrNotMultipart is returned by Request.MultipartReader when the
+	// request's Content-Type is not multipart/form-data.
+	ErrNotMultipart = &ProtocolError{"request Content-Type isn't multipart/form-data"}
+
+	// Deprecated: ErrHeaderTooLong is not used.
+	ErrHeaderTooLong = &ProtocolError{"header too long"}
+	// Deprecated: ErrShortBody is not used.
+	ErrShortBody = &ProtocolError{"entity body too short"}
+	// Deprecated: ErrMissingContentLength is not used.
+	ErrMissingContentLength = &ProtocolError{"missing ContentLength in HEAD response"}
+)
+
+var (
+	// ErrBodyNotAllowed is returned by ResponseWriter.Write calls
+	// when the HTTP method or response code does not permit a
+	// body.
+	ErrBodyNotAllowed = errors.New("http: request method or response status code does not allow body")
+
+	// ErrHijacked is returned by ResponseWriter.Write calls when
+	// the underlying connection has been hijacked using the
+	// Hijacker interface. A zero-byte write on a hijacked
+	// connection will return ErrHijacked without any other side
+	// effects.
+	ErrHijacked = errors.New("http: connection has been hijacked")
+
+	// ErrContentLength is returned by ResponseWriter.Write calls
+	// when a Handler set a Content-Length response header with a
+	// declared size and then attempted to write more bytes than
+	// declared.
+	ErrContentLength = errors.New("http: wrote more than the declared Content-Length")
+
+	// Deprecated: ErrWriteAfterFlush is no longer used.
+	ErrWriteAfterFlush = errors.New("unused")
+)
+    Errors used by the HTTP server.
+
+var ErrAbortHandler = errors.New("net/http: abort Handler")
+    ErrAbortHandler is a sentinel panic value to abort a handler. While any
+    panic from ServeHTTP aborts the response to the client, panicking with
+    ErrAbortHandler also suppresses logging of a stack trace to the server's
+    error log.
+
+var ErrBodyReadAfterClose = errors.New("http: invalid Read on closed Body")
+    ErrBodyReadAfterClose is returned when reading a Request or Response Body
+    after the body has been closed. This typically happens when the body is read
+    after an HTTP Handler calls WriteHeader or Write on its ResponseWriter.
+
+var ErrHandlerTimeout = errors.New("http: Handler timeout")
+    ErrHandlerTimeout is returned on ResponseWriter Write calls in handlers
+    which have timed out.
+
+var ErrLineTooLong = internal.ErrLineTooLong
+    ErrLineTooLong is returned when reading request or response bodies with
+    malformed chunked encoding.
+
+var ErrMissingFile = errors.New("http: no such file")
+    ErrMissingFile is returned by FormFile when the provided file field name is
+    either not present in the request or not a file field.
+
+var ErrNoCookie = errors.New("http: named cookie not present")
+    ErrNoCookie is returned by Request's Cookie method when a cookie is not
+    found.
+
+var ErrNoLocation = errors.New("http: no Location header in response")
+    ErrNoLocation is returned by Response's Location method when no Location
+    header is present.
+
+var ErrServerClosed = errors.New("http: Server closed")
+
+var ErrSkipAltProtocol = errors.New("net/http: skip alternate protocol")
+    ErrSkipAltProtocol is a sentinel error value defined by
+    Transport.RegisterProtocol.
+
+var ErrUseLastResponse = errors.New("net/http: use last response")
+    ErrUseLastResponse can be returned by Client.CheckRedirect hooks to control
+    how redirects are processed. If returned, the next request is not sent and
+    the most recent response is returned with its body unclosed.
+
+================================================================
+
+func Error(w ResponseWriter, error string, code int)
+    Error replies to the request with the specified error message and HTTP code.
+    It does not otherwise end the request; the caller should ensure no further
+    writes are done to w. The error message should be plain text.
+
+=================================================================
+
+type ProtocolError struct {
+	ErrorString string
+}
+    ProtocolError represents an HTTP protocol error.
+
+    Deprecated: Not all errors in the http package related to protocol errors
+    are of type ProtocolError.
+
+
+func (pe *ProtocolError) Error() string
