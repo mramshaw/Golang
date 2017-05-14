@@ -100,6 +100,8 @@ func main() {
     fmt.Printf("Structs (using Reflection)\n")
     fmt.Printf("==========================\n")
     fmt.Printf("\n")
+    fmt.Printf("%#v\n", v)
+    fmt.Printf("\n")
     fmt.Printf("struct is initialized to: %v, type is %T\n", v, v)
     fmt.Println("    reflect.TypeOf(v) = ", reflect.TypeOf(v))
     fmt.Println("    reflect.ValueOf(v) = ", reflect.ValueOf(v))
@@ -108,6 +110,8 @@ func main() {
     fmt.Printf("\n")
     fmt.Printf("Errors (using Reflection)\n")
     fmt.Printf("=========================\n")
+    fmt.Printf("\n")
+    fmt.Printf("%#v\n", ce)
     fmt.Printf("\n")
     fmt.Printf("error is initialized to: %v, type is %T\n", ce, ce)
     fmt.Println("    reflect.TypeOf(ce) = ", reflect.TypeOf(ce))
@@ -125,7 +129,6 @@ func main() {
         fmt.Println("    Custom Error: ", ee.desc)
     }
     fmt.Println("Return code = ", rc)
-    fmt.Printf("\n")
 
     fmt.Printf("\n")
     fmt.Printf("Non-Use of Custom Error (through casting)\n")
@@ -140,7 +143,61 @@ func main() {
         fmt.Println("No Error!")
     }
     fmt.Println("Return code = ", rc)
+
+    var chBool   chan bool
+    var chInt    chan int
+    var chByte   chan byte
+    var chString chan string
+    var chIface  chan interface{}
+
     fmt.Printf("\n")
+    fmt.Printf("Channels\n")
+    fmt.Printf("========\n")
+    fmt.Printf("\n")
+    fmt.Printf("%#v\n", chBool)
+    fmt.Printf("%#v\n", chInt)
+    fmt.Printf("%#v\n", chByte)
+    fmt.Printf("%#v\n", chString)
+    fmt.Printf("%#v\n", chIface)
+    fmt.Printf("\n")
+    fmt.Printf("bool      channel is initialized to: %[01]v, type is %[01]T\n", chBool)
+    fmt.Printf("int       channel is initialized to: %[01]v, type is %[01]T\n", chInt)
+    fmt.Printf("byte      channel is initialized to: %[01]v, type is %[01]T\n", chByte)
+    fmt.Printf("string    channel is initialized to: %[01]v, type is %[01]T\n", chString)
+    fmt.Printf("interface channel is initialized to: %[01]v, type is %[01]T\n", chIface)
+
+    chBool   = make(chan bool)
+    chInt    = make(chan int)
+    chByte   = make(chan byte)
+    chString = make(chan string)
+    chIface  = make(chan interface{})
+
+    fmt.Printf("\n")
+    fmt.Printf("bool      channel (after make) is: %[01]v, type is %[01]T\n", chBool)
+    fmt.Printf("int       channel (after make) is: %[01]v, type is %[01]T\n", chInt)
+    fmt.Printf("byte      channel (after make) is: %[01]v, type is %[01]T\n", chByte)
+    fmt.Printf("string    channel (after make) is: %[01]v, type is %[01]T\n", chString)
+    fmt.Printf("interface channel (after make) is: %[01]v, type is %[01]T\n", chIface)
+
+    close(chBool)
+    close(chInt)
+    close(chByte)
+    close(chString)
+    close(chIface)
+
+    fmt.Printf("\n")
+    fmt.Printf("bool      channel (after close): %[01]v, type is %[01]T\n", chBool)
+    fmt.Printf("int       channel (after close): %[01]v, type is %[01]T\n", chInt)
+    fmt.Printf("byte      channel (after close): %[01]v, type is %[01]T\n", chByte)
+    fmt.Printf("string    channel (after close): %[01]v, type is %[01]T\n", chString)
+    fmt.Printf("interface channel (after close): %[01]v, type is %[01]T\n", chIface)
+
+    fmt.Printf("\n")
+    fmt.Printf("bool      channel (read after close) gives: %v\n", <-chBool)
+    fmt.Printf("int       channel (read after close) gives: %v\n", <-chInt)
+    fmt.Printf("byte      channel (read after close) gives: %v\n", <-chByte)
+    fmt.Printf("string    channel (read after close) gives: %q\n", <-chString)
+    fmt.Printf("interface channel (read after close) gives: %v\n", <-chIface)
 }
 
 // Returns -1 and customError if Even, normal return if Odd
@@ -152,3 +209,4 @@ func evenOdd(arg int) (int, error) {
 
     return arg, nil
 }
+
