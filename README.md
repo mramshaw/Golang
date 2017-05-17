@@ -3,16 +3,21 @@ Experiments with Go
 
 Go is a fun language but not without eccentricities.
 
-It strikes a nice balance between the "raw metal" and having to know a zillion APIs in order to do anything.
+It strikes a nice balance between the "raw metal" (like 'C') and having to know a zillion APIs in order to do anything.
 
-One of the really nice features is that a core feature of the design is that Go 1.x releases should be "future-proof" (new point releases should not introduce incompatible APIs that require changing code - of course this does not apply to major releases such as Go 2.x or Go 3.x): https://golang.org/doc/go1compat
+One of the really nice features is that a core feature of the design is that Go 1.x releases should be "future-proof"
+(new point releases should not introduce incompatible APIs that require changing code - of course this does not apply
+to major releases such as Go 2.x or Go 3.x): https://golang.org/doc/go1compat
 
-I'm enjoying it quite a lot and I am - on purpose - avoiding multi-threading.
+Go has the concept of Concurrency (lightweight processes similiar to 'green' threads) which is not quite the same thing
+as Multi-threading (threads are an OS concept and generally more limited in number). Go will use threads (say when calling
+out to 'C' functions) but a blocking thread is a bit of an issue in Go whereas a blocking Go routine is not as much of an
+issue (the Go scheduler will follow the Apache 2.4 model and shuffle the blocking Go routine off onto a background process
+to be reactivated when the blcoking event occurs).
 
-[Multi-threading - and also recursion - can be quite tricky to debug and are definitely advanced topics.
- My personal opinion on recursion is that it should be avoided if at all possible - not always the case,
- I have certainly had to use recursion due to some unusual requirements; on the other hand multi-threading
- has many valid use-cases.]
+My personal opinion on recursion is that it should be avoided if possible - however it is less of an issue in Go compared
+to other languages. Stack Overflows are rare (if not imnpossible) in Go due to the design of the Go stack. While an OS
+thread stack may be as much as 2 MB a typical Go routine stack starts at around 2 KB and can grow up to 1 GB (The Go
+Programming Language, Donovan & Kernighan, page 280).
 
-As far as I can tell, Go was designed for Multi-threading (or at least Concurrency) - which is generally pretty tricky stuff. I'm looking forward to seeing how it handles multi-threading but first I want to get a good grasp
-on the fundamentals.
+As far as I can tell, Go was designed for Concurrency).
