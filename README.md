@@ -16,8 +16,8 @@ issue (the Go scheduler will follow the Apache 2.4 model and shuffle the blockin
 to be reactivated when the blcoking event occurs).
 
 My personal opinion on recursion is that it should be avoided if possible - however it is less of an issue in Go compared
-to other languages. Stack Overflows are rare (if not imnpossible) in Go due to the design of the Go stack. While an OS
+to other languages. Stack Overflows are rare (if not impossible) in Go due to the design of the Go stack. While an OS
 thread stack may be as much as 2 MB a typical Go routine stack starts at around 2 KB and can grow up to 1 GB (The Go
 Programming Language, Donovan & Kernighan, page 280).
 
-As far as I can tell, Go was designed for Concurrency).
+As far as I can tell, Go was designed for Concurrency.
