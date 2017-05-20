@@ -10,10 +10,10 @@ One of the really nice features is that a core feature of the design is that Go 
 to major releases such as Go 2.x or Go 3.x): https://golang.org/doc/go1compat
 
 Go has the concept of Concurrency (lightweight processes similiar to 'green' threads) which is not quite the same thing
-as Multi-threading (threads are an OS concept and generally more limited in number). Go will use threads (say when calling
-out to 'C' functions) but a blocking thread is a bit of an issue in Go whereas a blocking Go routine is not as much of an
-issue (the Go scheduler will follow the Apache 2.4 model and shuffle the blocking Go routine off onto a background process
-to be reactivated when the blcoking event occurs).
+as Multi-threading (threads are an OS concept and generally more limited in number). Go will use threads (say when
+calling out to 'C' functions) but a blocking thread is a bit of an issue in Go whereas a blocking Go routine is not as
+much of an issue (the Go scheduler will follow the Apache 2.4 model and conceptually shuffles the blocking Go routine
+off onto a background process to be reactivated when the blocking event occurs).
 
 My personal opinion on recursion is that it should be avoided if possible - however it is less of an issue in Go compared
 to other languages. Stack Overflows are rare (if not impossible) in Go due to the design of the Go stack. While an OS
