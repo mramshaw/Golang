@@ -7,8 +7,29 @@
 //
 // 3) Go routines can be stranded (leak) which is considered
 //    bad practice. Adding a panic before the end of the 'main'
-//    Go routine (recommended while testing) does not seem to
-//    provide a list of all stranded Go routines as expected.
+//    Go routine (recommended while testing) will provide a
+//    list of all stranded Go routines if the runtime/debug
+//    package's SetTraceback function is called as follows:
+//
+//        debug.SetTraceback("all")
+//
+//    A better way to do this is one of the following:
+//
+//        $ GOTRACEBACK="all" go run Gotchas.go
+//
+//        $ GOTRACEBACK=all go run Gotchas.go
+//
+//        $ GOTRACEBACK=1 go run Gotchas.go
+//
+//    [The results are identical and avoid having to
+//     import the runtime/debug package. These can also
+//     be specified at run time as needed - but since the
+//     panic statement needs to be either commented or
+//     uncommented as necessary the actual utility
+//     of this when testing is still problematic.] 
+//
+//    The default value of Traceback is single (only show
+//    the current Go routine).
 //
 // @ Martin Ramshaw, May 2017 (mramshaw@alumni.concordia.ca)
 
@@ -17,6 +38,7 @@ package main
 import (
 	"fmt"
 	"runtime"
+//	"runtime/debug"
 )
 
 const (
@@ -36,7 +58,8 @@ func main() {
 	}
 	fmt.Printf("Number of Go routines (post-loop): = %d\n", runtime.NumGoroutine())
 
-	// uncomment the next line for leaking Go routines
+	// uncomment the next 2 lines for leaking Go routines
+//	debug.SetTraceback("all")
 //	panic(fmt.Sprintf("Probably leaking some Go routines"))
 
 	for runtime.NumGoroutine() > 1 {}	// comment this line to leak Go routines
