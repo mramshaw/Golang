@@ -5,9 +5,9 @@ Go is a fun language but not without eccentricities.
 
 It strikes a nice balance between the "raw metal" (like 'C') and having to know a zillion APIs in order to do anything.
 
-One of the really nice features is that a core feature of the design is that Go 1.x releases should be "future-proof"
-(new point releases should not introduce incompatible APIs that require changing code - of course this does not apply
-to major releases such as Go 2.x or Go 3.x): https://golang.org/doc/go1compat
+One really nice thing is that a core feature of the design is that Go 1.x releases should be "future-proof" (new point
+releases should not introduce incompatible APIs that require changing code - of course this does not apply to major
+releases such as Go 2.x or Go 3.x): https://golang.org/doc/go1compat
 
 Go has the concept of Concurrency (lightweight processes similiar to 'green' threads) which is not quite the same thing
 as Multi-threading (threads are an OS concept and generally more limited in number). Go will use threads (say when
