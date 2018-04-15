@@ -1,6 +1,8 @@
 # Golang
 Experiments with Go
 
+[![GoDoc](https://godoc.org/github.com/mramshaw/Golang?status.svg)](https://godoc.org/github.com/mramshaw/Golang)
+
 Go is a fun language but not without eccentricities.
 
 It strikes a nice balance between the "raw metal" (like 'C') and having to know a zillion APIs in order to do anything.
