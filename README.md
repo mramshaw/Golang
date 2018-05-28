@@ -23,3 +23,10 @@ While an OS thread stack may be as much as 2 MB a typical Go routine stack start
 1 GB (The Go Programming Language, Donovan & Kernighan, page 280).
 
 As far as I can tell, Go was designed for Concurrency.
+
+For an interesting and informed perspective on Go, this 2016 interview with Brian Kernighan is well worth a listen:
+
+    https://softwareengineeringdaily.com/2017/12/28/language-design-with-brian-kernighan-holiday-repeat/
+
+[In it he states that the programs he used to write in C he would probably now write in Go, and that concurrency in
+ Go is a lot easier than with other languages - and definitely a lot easier than programming threads.]
