@@ -13,9 +13,9 @@ For people who don't find FizzBuzz challenging enough (or maybe their dates are 
 
 Basically the same game except that multiples of __seven__ require the answer ___Boink___.
 
-So, for example, __21__ would require the answer ___FizzBoink___, __35__ would require the answer ___BuzzBoink___, and so on.
+For example, __21__ would require the answer ___FizzBoink___, __35__ would require the answer ___BuzzBoink___, and so on.
 
-[I don't think __FizzBuzzBoink__ itself shows up until, well ... __105__, which might be another good interview question.]
+[I don't think __FizzBuzzBoink__ shows up until __105__, which might be another good interview question.]
 
 #### Chocolat
 
@@ -27,12 +27,12 @@ As in:
 
 ## Golang
 
-Anyhow, this showed up in an interview where I was supposed to be asking technical questions, so I thought I would code up
-my own answer. The question is usually is usually phrased as "from 1 to 100", so checking whether or not the results start
+This showed up in an interview where I was supposed to be asking technical questions, so I thought I would code
+my own answer. The question is usually phrased as "from 1 to 100", so checking whether or not the results start
 at zero - or one - is probably worthwhile, likewise whether or not the code terminates at 99 - or 100.
 
-Even for such a simple piece of code, it is quite easy to over-engineer, so perhaps specifying "without using subroutines"
-as well might reduce some of the pressure on candidates.
+It is easy to over-engineer even such a simple piece of code, so perhaps also specifying "without using subroutines"
+might reduce some of the pressure on candidates.
 
 Run it as follows:
 
@@ -57,9 +57,9 @@ Fizz!
 13
 14
 FizzBuzz!
-...
+
 <snip>
-...
+
 97
 98
 Fizz!
